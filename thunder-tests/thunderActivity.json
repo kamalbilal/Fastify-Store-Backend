@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "5d1cd2fd-110f-4e12-9f2c-7f7c09ea45e7",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/getProductData",
+    "url": "http://localhost:8000/getProductData",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-11-13T07:24:45.798Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 3256803698289008,\n  \"product_name\": \"product_name\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "b1ec20ea-89b5-46fc-95b7-0227268777ee",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/getProductData Copy",
+    "url": "http://localhost:8000/getUserData",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-11-14T16:11:55.874Z",
+    "headers": [
+      {
+        "name": "Cookie",
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY4NDQyMDY0LCJleHAiOjE2NjkzMDYwNjR9.YLpS9VrTPDFrhn-nTnNsJcTEiMWFozZaFJUqahgjaaU"
+      }
+    ],
+    "params": [],
+    "tests": []
+  }
+]

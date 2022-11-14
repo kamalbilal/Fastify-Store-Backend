@@ -1,0 +1,18 @@
+[
+  {
+    "mainQuery": {
+      "method": "INSERT",
+      "tableName": "t_priceList",
+      "insertIntoColumns": ["foreign_id", "byName", "byNumber", "availQuantity", "bulkOrder", "inventory", "activityCurrency", "activityAmount", "activityFormatedAmount", "currency", "amount", "formatedAmount", "countries"],
+      "values": [1, "\"Color:Army Green\"", "\"14:200004889\"", 20, 0, 20, "\"USD\"", 11.13, "\"US $11.13\"", "\"USD\"", 15.67, "\"US $15.67\"", "\"US / CN\""]
+    }
+  },
+  {
+    "mainQuery": {
+      "method": "INSERT",
+      "tableName": "t_priceList",
+      "insertIntoColumns": ["foreign_id", "byName", "byNumber", "availQuantity", "bulkOrder", "inventory", "activityCurrency", "activityAmount", "activityFormatedAmount", "currency", "amount", "formatedAmount", "countries"],
+      "values": [1, "\"Color:Dark Grey\"", "\"14:200004890\"", 960, 0, 960, "\"USD\"", 11.13, "\"US $11.13\"", "\"USD\"", 15.67, "\"US $15.67\"", "\"US / CN\""]
+    }
+  }
+]
