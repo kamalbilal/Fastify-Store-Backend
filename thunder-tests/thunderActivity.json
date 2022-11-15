@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-13T06:49:56.017Z",
-    "modified": "2022-11-13T07:24:45.798Z",
+    "modified": "2022-11-15T15:15:08.606Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 3256803698289008,\n  \"product_name\": \"product_name\"\n}",
+      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 3256804044917717,\n  \"product_name\": \"product_name\"\n}",
       "form": []
     },
     "tests": []
