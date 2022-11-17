@@ -10,18 +10,19 @@ async function findOneProduct(productId) {
     // await client.close
   }
 }
-async function add_updateProductToCart(productId, userId, cartName, quantity,newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+async function add_updateProductToCart(productId, userId, cartName, quantity,price, shippingPrice, discount, selectedProperties, shippingDetails) {
   try {
     let output = await query(queryBuilder.checkProductExistInUserCartQuery(cartName, userId))
-    console.log(output.rows);
     if (output.rows.length > 0) {
-      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails))
+      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
     } else {
-      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails))
+      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
+      query(queryBuilder.incrementCartCountQuery(userId));
     }
     return output.rows[0];
-  } finally {
-    // await client.close
+  } catch(e) {
+    console.error(e);
+    return null
   }
 }
 

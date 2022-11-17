@@ -48,19 +48,35 @@ function signUpUserQuery(email, hasedPassword) {
   }
 
 }
-function addProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+function addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) {
   return {
     name: 'addProduct-to-cart',
-    text: `INSERT into shop.t_cart(foreign_product_id, foreign_user_id, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) Values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
-    values: [productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails],
+    text: `INSERT into shop.t_cart(foreign_product_id, foreign_user_id, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) Values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
+    values: [productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails],
   }
 
 }
-function updateProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+function incrementCartCountQuery(userId) {
+  return {
+    name: 'increment-cartCount',
+    text: `UPDATE shop.t_users SET cartCount = cartCount + 1 WHERE id = $1;`,
+    values: [userId],
+  }
+
+}
+function decrementCartCountQuery(userId) {
+  return {
+    name: 'decrement-cartCount',
+    text: `UPDATE shop.t_users SET cartCount = cartCount - 1 WHERE id = $1;`,
+    values: [userId],
+  }
+
+}
+function updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) {
   return {
     name: 'updateProduct-to-cart',
-    text: `UPDATE shop.t_cart SET quantity = $1, newPrice = $2, oldPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6 WHERE foreign_user_id = $7 and foreign_product_id = $8 and cartName = $9 RETURNING id`,
-    values: [quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName, ],
+    text: `UPDATE shop.t_cart SET quantity = $1, price = $2, shippingPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6 WHERE foreign_user_id = $7 and foreign_product_id = $8 and cartName = $9 RETURNING id;`,
+    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName,],
   }
 
 }
@@ -98,4 +114,4 @@ function userLoginQuery(email) {
 
 
 
-module.exports = { getSingleProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery,checkProductExistInUserCartQuery, addProductToCartQuery, updateProductToCartQuery }
+module.exports = { getSingleProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery, checkProductExistInUserCartQuery, addProductToCartQuery, updateProductToCartQuery, incrementCartCountQuery }

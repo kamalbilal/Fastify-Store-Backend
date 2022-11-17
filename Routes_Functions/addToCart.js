@@ -6,8 +6,8 @@ async function addToCart(req, res) {
   const cookie = req.unsignCookie(req.cookies["token"]).value;
   const productId = req.body.productId
   const cartName = req.body.cartName
-  const newPrice = req.body.newPrice
-  const oldPrice = req.body.oldPrice
+  const price = req.body.price
+  const shippingPrice = req.body.shippingPrice
   const discount = req.body.discount
   const quantity = req.body.quantity
   const selectedProperties = req.body.selectedProperties
@@ -15,7 +15,7 @@ async function addToCart(req, res) {
   let userId = null;
 
 
-  if (!cookie || !productId || !cartName || isNaN(newPrice) || isNaN(oldPrice) || isNaN(discount) || !quantity || !selectedProperties || !shippingDetails) {
+  if (!cookie || !productId || !cartName || isNaN(price) || isNaN(shippingPrice) || isNaN(discount) || !quantity || !selectedProperties || !shippingDetails) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
   try {
@@ -29,11 +29,11 @@ async function addToCart(req, res) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
 
-  const update = await add_updateProductToCart(productId, userId, cartName, quantity, newPrice, oldPrice,discount, selectedProperties, shippingDetails);
-  // if (update.modifiedCount === 0) {
-  //   return res.status(404).send({ error: true, success: false, reason: "No Modification" });
-  // }
-  return res.status(200).send({ error: false, success: true,update });
+  const insertOrUpdate = await add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails);
+  if (!insertOrUpdate || !insertOrUpdate.hasOwnProperty("id")) {
+    return res.status(404).send({ error: true, success: false, reason: "No Modification, something's wrong" });
+  }
+  return res.status(200).send({ error: false, success: true, id: insertOrUpdate["id"] });
 }
 
 module.exports = addToCart;
