@@ -1,4 +1,4 @@
-function oneProductQuery(productId) {
+function getSingleProductQuery(productId) {
   return {
     name: 'fetch-single-product',
     text: `select 
@@ -16,7 +16,7 @@ function oneProductQuery(productId) {
         t_basicInfo.buylimittext as "buyLimitText",
         t_basicInfo.quantityavaliable as "quantityAvaliable",
         t_basicInfo.comingSoon as "comingSoon",
-        t_productId.productId as "productId",
+        t_productId.id as "productId",
         t_titles.title,
         t_mainimages.image_link_array as "images",
         t_properties.property_array as "sizesColors",
@@ -48,13 +48,35 @@ function signUpUserQuery(email, hasedPassword) {
   }
 
 }
+function addProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+  return {
+    name: 'addProduct-to-cart',
+    text: `INSERT into shop.t_cart(foreign_product_id, foreign_user_id, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) Values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
+    values: [productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails],
+  }
+
+}
+function updateProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+  return {
+    name: 'updateProduct-to-cart',
+    text: `UPDATE shop.t_cart SET quantity = $1, newPrice = $2, oldPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6 WHERE foreign_user_id = $7 and foreign_product_id = $8 and cartName = $9 RETURNING id`,
+    values: [quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName, ],
+  }
+
+}
+function checkProductExistInUserCartQuery(cartName, userId) {
+  return {
+    name: 'check-product-exist-in-cart',
+    text: `SELECT id from shop.t_cart WHERE cartName = $1 and foreign_user_id = $2;`,
+    values: [cartName, userId],
+  }
+}
 function checkUserExistQuery(email) {
   return {
     name: 'check-user-exist',
     text: `SELECT email from shop.t_users WHERE email = $1;`,
     values: [email],
   }
-
 }
 function getUserDataQuery(id) {
   return {
@@ -76,4 +98,4 @@ function userLoginQuery(email) {
 
 
 
-module.exports = { oneProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery }
+module.exports = { getSingleProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery,checkProductExistInUserCartQuery, addProductToCartQuery, updateProductToCartQuery }

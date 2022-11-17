@@ -26,7 +26,7 @@ module.exports = function (fastify, opts, done) {
   fastify.post("/login", login);
   fastify.post("/getUserData", getUserData);
   fastify.post("/logout", logout);
-  // fastify.post("/addtocart", addToCart);
+  fastify.post("/addtocart", addToCart);
   // fastify.post("/getsearchedproducts", getSearchedProducts);
 
   // admin start

@@ -4,7 +4,21 @@ const queryBuilder = require("./queriesBuilder");
 
 async function findOneProduct(productId) {
   try {
-    const output = await query(queryBuilder.oneProductQuery(productId))
+    const output = await query(queryBuilder.getSingleProductQuery(productId))
+    return output.rows[0];
+  } finally {
+    // await client.close
+  }
+}
+async function add_updateProductToCart(productId, userId, cartName, quantity,newPrice, oldPrice, discount, selectedProperties, shippingDetails) {
+  try {
+    let output = await query(queryBuilder.checkProductExistInUserCartQuery(cartName, userId))
+    console.log(output.rows);
+    if (output.rows.length > 0) {
+      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails))
+    } else {
+      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, newPrice, oldPrice, discount, selectedProperties, shippingDetails))
+    }
     return output.rows[0];
   } finally {
     // await client.close
@@ -150,5 +164,6 @@ module.exports = {
   signUpUser,
   checkUserExist,
   userLogin,
-  getUserData
+  getUserData,
+  add_updateProductToCart
 };

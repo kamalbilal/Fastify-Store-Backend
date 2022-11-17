@@ -22,7 +22,7 @@
     "_id": "b1ec20ea-89b5-46fc-95b7-0227268777ee",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:8000/getProductData Copy",
+    "name": "http://localhost:8000/getUserData",
     "url": "http://localhost:8000/getUserData",
     "method": "POST",
     "sortNum": 0,
@@ -35,6 +35,30 @@
       }
     ],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "cdf2913f-e1bd-435c-844e-92c72f378b75",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/addtocart",
+    "url": "http://localhost:8000/addtocart",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-11-17T12:15:54.266Z",
+    "headers": [
+      {
+        "name": "Cookie",
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY4NDQyMDY0LCJleHAiOjE2NjkzMDYwNjR9.YLpS9VrTPDFrhn-nTnNsJcTEiMWFozZaFJUqahgjaaU"
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"cartData\": \"nil\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

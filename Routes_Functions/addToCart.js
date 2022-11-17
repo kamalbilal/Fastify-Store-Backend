@@ -1,39 +1,39 @@
-const { updateOne, collections } = require("../db/db");
+const { add_updateProductToCart } = require("../db/db");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../passwords");
 
 async function addToCart(req, res) {
   const cookie = req.unsignCookie(req.cookies["token"]).value;
-  let cartData = req.body.cartData;
-  const type = req.body.type;
-  let id = null;
+  const productId = req.body.productId
+  const cartName = req.body.cartName
+  const newPrice = req.body.newPrice
+  const oldPrice = req.body.oldPrice
+  const discount = req.body.discount
+  const quantity = req.body.quantity
+  const selectedProperties = req.body.selectedProperties
+  const shippingDetails = req.body.shippingDetails
+  let userId = null;
 
-  if (!cookie || !cartData) {
+
+  if (!cookie || !productId || !cartName || isNaN(newPrice) || isNaN(oldPrice) || isNaN(discount) || !quantity || !selectedProperties || !shippingDetails) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
-
   try {
-    id = jwt.verify(cookie, jwtSecret);
-    id = id["id"];
+    userId = jwt.verify(cookie, jwtSecret);
+    userId = userId["id"];
   } catch (error) {
     console.log(error);
     return res.status(404).send({ error: true, code: "Error Code 7" });
   }
-  if (!id) {
+  if (!userId) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
 
-  let update = null;
-  const db = this.mongo.db;
-  if (type === "add") {
-    update = await updateOne(db, collections.users, { _id: id }, { $push: { cart: { ...cartData } } });
-  } else if (type === "remove") {
-    update = await updateOne(db, collections.users, { _id: id }, { $pull: { cart: { _id: cartData } } });
-  }
-  if (update.modifiedCount === 0) {
-    return res.status(404).send({ error: true, success: false, cartData: cartData, reason: "No Modification" });
-  }
-  return res.status(200).send({ error: false, success: true, type, cartData: cartData });
+  const update = await add_updateProductToCart(productId, userId, cartName, quantity, newPrice, oldPrice,discount, selectedProperties, shippingDetails);
+  // if (update.modifiedCount === 0) {
+  //   return res.status(404).send({ error: true, success: false, reason: "No Modification" });
+  // }
+  return res.status(200).send({ error: false, success: true,update });
 }
 
 module.exports = addToCart;
