@@ -60,5 +60,29 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "3e451f5f-67fc-47ee-9b34-0a8783469b1f",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/removefromcart",
+    "url": "http://localhost:8000/removefromcart",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-11-18T15:46:59.404Z",
+    "headers": [
+      {
+        "name": "Cookie",
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY4NDQyMDY0LCJleHAiOjE2NjkzMDYwNjR9.YLpS9VrTPDFrhn-nTnNsJcTEiMWFozZaFJUqahgjaaU"
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"productId\" : 1,\n  \"id\": 4\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

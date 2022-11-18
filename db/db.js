@@ -17,8 +17,19 @@ async function add_updateProductToCart(productId, userId, cartName, quantity,pri
       output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
     } else {
       output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
-      query(queryBuilder.incrementCartCountQuery(userId));
+      if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
     }
+    return output.rows[0];
+  } catch(e) {
+    console.error(e);
+    return null
+  }
+}
+async function deleteProductToCart(productId, userId, cartId) {
+  try {
+      output = await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId))
+      // if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
+    
     return output.rows[0];
   } catch(e) {
     console.error(e);
@@ -166,5 +177,6 @@ module.exports = {
   checkUserExist,
   userLogin,
   getUserData,
-  add_updateProductToCart
+  add_updateProductToCart,
+  deleteProductToCart
 };

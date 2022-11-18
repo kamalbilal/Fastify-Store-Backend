@@ -76,7 +76,15 @@ function updateProductToCartQuery(productId, userId, cartName, quantity, price, 
   return {
     name: 'updateProduct-to-cart',
     text: `UPDATE shop.t_cart SET quantity = $1, price = $2, shippingPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6 WHERE foreign_user_id = $7 and foreign_product_id = $8 and cartName = $9 RETURNING id;`,
-    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName,],
+    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName],
+  }
+
+}
+function deleteProductToCartQuery(productId, userId, cartId) {
+  return {
+    name: 'deleteProduct-to-cart',
+    text: `DELETE from shop.t_cart WHERE foreign_product_id = $1 and foreign_user_id = $2 and id = $3 RETURNING id;`,
+    values: [productId, userId, cartId],
   }
 
 }
@@ -114,4 +122,4 @@ function userLoginQuery(email) {
 
 
 
-module.exports = { getSingleProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery, checkProductExistInUserCartQuery, addProductToCartQuery, updateProductToCartQuery, incrementCartCountQuery }
+module.exports = { getSingleProductQuery, signUpUserQuery, checkUserExistQuery, userLoginQuery, getUserDataQuery, checkProductExistInUserCartQuery, addProductToCartQuery, updateProductToCartQuery, incrementCartCountQuery, deleteProductToCartQuery }

@@ -2,6 +2,7 @@ const getProductData = require("./Routes_Functions/getProductData");
 const signUp = require("./Routes_Functions/signUp");
 const login = require("./Routes_Functions/login");
 const addToCart = require("./Routes_Functions/addToCart");
+const removeFromCart = require("./Routes_Functions/removeFromCart");
 const getUserData = require("./Routes_Functions/getUserData");
 const logout = require("./Routes_Functions/logout");
 // const getSearchedProducts = require("./Routes_Functions/getSearchedProducts");
@@ -27,6 +28,7 @@ module.exports = function (fastify, opts, done) {
   fastify.post("/getUserData", getUserData);
   fastify.post("/logout", logout);
   fastify.post("/addtocart", addToCart);
+  fastify.post("/removefromcart", removeFromCart);
   // fastify.post("/getsearchedproducts", getSearchedProducts);
 
   // admin start
