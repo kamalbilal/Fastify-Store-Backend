@@ -3,10 +3,10 @@ const path = require('path')
 // const fastify = require("fastify")();
 const fastify = require("fastify")({ logger: true });
 
-fastify.register(require('@fastify/static'), {
-  root: path.join(__dirname, 'public'),
-  prefix: '/public/', // optional: default '/'
-})
+// fastify.register(require('@fastify/static'), {
+//   root: path.join(__dirname, 'public'),
+//   prefix: '/public/', // optional: default '/'
+// })
 // fastify.register(require("@fastify/mongodb"), {
 //   // force to close the mongodb connection when app stopped
 //   // the default value is false

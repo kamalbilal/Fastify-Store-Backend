@@ -84,5 +84,29 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "ff50e56e-f613-41a9-beec-0d59738e160d",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/getusercart",
+    "url": "http://localhost:8000/getusercart",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-11-21T15:52:04.179Z",
+    "headers": [
+      {
+        "name": "Cookie",
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY4NDQyMDY0LCJleHAiOjE2NjkzMDYwNjR9.YLpS9VrTPDFrhn-nTnNsJcTEiMWFozZaFJUqahgjaaU"
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"cookie\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY4NDQyMDY0LCJleHAiOjE2NjkzMDYwNjR9.YLpS9VrTPDFrhn-nTnNsJcTEiMWFozZaFJUqahgjaaU\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

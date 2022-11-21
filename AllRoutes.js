@@ -19,6 +19,7 @@ const deleteOffer = require("./Routes_Functions/admin/deleteOffer");
 const removeProductFromOffer = require("./Routes_Functions/admin/removeProductFromOffer");
 const offerToggle = require("./Routes_Functions/admin/offerToggle");
 const renameOffer = require("./Routes_Functions/admin/renameOffer");
+const getUserCart = require("./Routes_Functions/getUserCart");
 // admin end
 
 module.exports = function (fastify, opts, done) {
@@ -29,6 +30,7 @@ module.exports = function (fastify, opts, done) {
   fastify.post("/logout", logout);
   fastify.post("/addtocart", addToCart);
   fastify.post("/removefromcart", removeFromCart);
+  fastify.post("/getusercart", getUserCart);
   // fastify.post("/getsearchedproducts", getSearchedProducts);
 
   // admin start

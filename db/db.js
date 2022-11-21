@@ -36,6 +36,15 @@ async function deleteProductToCart(productId, userId, cartId) {
     return null
   }
 }
+async function getUserCartData(userId) {
+  try {
+      output = await query(queryBuilder.getUserCartDataQuery(userId))
+    return output.rows;
+  } catch(e) {
+    console.error(e);
+    return null
+  }
+}
 
 async function findAll(db, collection_name, query, options, getOnly = null, sort) {
   try {
@@ -178,5 +187,6 @@ module.exports = {
   userLogin,
   getUserData,
   add_updateProductToCart,
-  deleteProductToCart
+  deleteProductToCart,
+  getUserCartData
 };
