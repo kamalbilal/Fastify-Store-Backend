@@ -99,6 +99,7 @@ function getUserCartDataQuery(userId) {
   return {
     name: "user-cart-data",
     text: `SELECT 
+    title,
     t_cart.id as "cartId",
     t_cart.foreign_product_id as "productId",
     cartname as "cartName",
@@ -120,6 +121,7 @@ function getUserCartDataQuery(userId) {
     bynumber as "priceList_InNumbers",
     bydata as "priceList_Data"
     FROM shop.t_cart 
+    JOIN shop.t_titles ON t_titles.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_mainImages ON t_mainImages.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_pricelist ON t_pricelist.foreign_id = t_cart.foreign_product_id
