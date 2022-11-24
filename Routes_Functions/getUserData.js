@@ -24,9 +24,11 @@ async function getUserData(req, res) {
 
 
     const output = await db.getUserData(id)
-    if (output.rows.length === 1) {
-        return res.send({ success: true, data: output.rows[0] })
-    }
+    return res.send({ success: true, data: output })
+    // if (output && output.rows.length === 1) {
+    // } else {
+    //     return res.send({ success: false, error: true, reason: "Unauthorize" })
+    // }
 
 }
 

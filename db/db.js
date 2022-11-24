@@ -36,15 +36,6 @@ async function deleteProductToCart(productId, userId, cartId) {
     return null
   }
 }
-async function getUserCartData(userId) {
-  try {
-      output = await query(queryBuilder.getUserCartDataQuery(userId))
-    return output.rows;
-  } catch(e) {
-    console.error(e);
-    return null
-  }
-}
 
 async function findAll(db, collection_name, query, options, getOnly = null, sort) {
   try {
@@ -103,9 +94,11 @@ async function signUpUser(email, hasedPassword) {
   }
 }
 async function getUserData(id) {
+  const output = {}
   try {
     // await client.connect();
-    const output = await query(queryBuilder.getUserDataQuery(id));
+    output["userData"] = await (await query(queryBuilder.getUserDataQuery(id))).rows[0] || null;
+    output["userCart"] = await (await query(queryBuilder.getUserCartDataQuery(id))).rows;
     return output;
   } finally {
     // await client.close();
@@ -188,5 +181,5 @@ module.exports = {
   getUserData,
   add_updateProductToCart,
   deleteProductToCart,
-  getUserCartData
+  
 };

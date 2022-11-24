@@ -129,11 +129,11 @@ function getUserCartDataQuery(userId) {
     values: [userId],
   };
 }
-function getUserDataQuery(id) {
+function getUserDataQuery(userId) {
   return {
     name: "check-user-exist",
     text: `SELECT email from shop.t_users WHERE id = $1;`,
-    values: [id],
+    values: [userId],
   };
 }
 function userLoginQuery(email) {
