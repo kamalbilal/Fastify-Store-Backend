@@ -17,6 +17,7 @@ function getSingleProductQuery(productId) {
         t_basicInfo.quantityavaliable as "quantityAvaliable",
         t_basicInfo.comingSoon as "comingSoon",
         t_productId.id as "productId",
+        t_productId.myProductId as "longProductId",
         t_titles.title,
         t_mainimages.image_link_array as "images",
         t_properties.property_array as "sizesColors",
@@ -35,7 +36,7 @@ function getSingleProductQuery(productId) {
         join shop.t_specs on t_specs.foreign_id = t_productId.id
         join shop.t_shippingdetails on t_shippingdetails.foreign_id = t_productId.id
         join shop.t_modifieddescription on t_modifieddescription.foreign_id = t_productId.id
-        where t_productId.productId = $1;`,
+        where t_productId.myProductId = $1;`,
     values: [productId],
   };
 }
@@ -102,6 +103,7 @@ function getUserCartDataQuery(userId) {
     title,
     t_cart.id as "cartId",
     t_cart.foreign_product_id as "productId",
+    t_productId.myProductId as "longProductId",
     cartname as "cartName",
     price as "selectedPrice",
     t_cart.quantity as "selectedQuantity",
@@ -121,6 +123,7 @@ function getUserCartDataQuery(userId) {
     bynumber as "priceList_InNumbers",
     bydata as "priceList_Data"
     FROM shop.t_cart 
+    JOIN shop.t_productId ON t_productId.id = t_cart.foreign_product_id
     JOIN shop.t_titles ON t_titles.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_mainImages ON t_mainImages.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_cart.foreign_product_id
