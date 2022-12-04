@@ -1,6 +1,6 @@
 function getSingleProductQuery(productId) {
   return {
-    name: "fetch-single-product",
+    name: `fetch-single-product-${productId}`,
     text: `select 
         t_basicInfo.display as "_display",
         t_basicInfo.product_link as "link",
@@ -42,21 +42,21 @@ function getSingleProductQuery(productId) {
 }
 function signUpUserQuery(email, hasedPassword) {
   return {
-    name: "sign-up-user",
+    name: `sign-up-user-${email}`,
     text: `INSERT into shop.t_users(email, password) Values($1, $2) RETURNING id;`,
     values: [email, hasedPassword],
   };
 }
-function addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) {
+function addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
   return {
-    name: "addProduct-to-cart",
-    text: `INSERT into shop.t_cart(foreign_product_id, foreign_user_id, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) Values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;`,
-    values: [productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails],
+    name: `addProduct-to-cart-${productId}-${userId}-${cartName}`,
+    text: `INSERT into shop.t_cart(foreign_product_id, foreign_user_id, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) Values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id;`,
+    values: [productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl],
   };
 }
 function incrementCartCountQuery(userId) {
   return {
-    name: "increment-cartCount",
+    name: `increment-cartCount-${userId}`,
     text: `UPDATE shop.t_users SET cartCount = cartCount + 1 WHERE id = $1;`,
     values: [userId],
   };
@@ -68,50 +68,50 @@ function decrementCartCountQuery(userId) {
     values: [userId],
   };
 }
-function updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails) {
+function updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
   return {
-    name: "updateProduct-to-cart",
-    text: `UPDATE shop.t_cart SET quantity = $1, price = $2, shippingPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6 WHERE foreign_user_id = $7 and foreign_product_id = $8 and cartName = $9 RETURNING id;`,
-    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, userId, productId, cartName],
+    name: `updateProduct-to-cart-${productId}-${userId}-${cartName}`,
+    text: `UPDATE shop.t_cart SET quantity = $1, price = $2, shippingPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6, selectedImageUrl = $7 WHERE foreign_user_id = $8 and foreign_product_id = $9 and cartName = $10 RETURNING id;`,
+    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl, userId, productId, cartName, selectedImageUrl],
   };
 }
 function deleteProductToCartQuery(productId, userId, cartId) {
   return {
-    name: "deleteProduct-to-cart",
+    name: `deleteProduct-to-cart-${cartId}`,
     text: `DELETE from shop.t_cart WHERE foreign_product_id = $1 and foreign_user_id = $2 and id = $3 RETURNING id;`,
     values: [productId, userId, cartId],
   };
 }
 function checkProductExistInUserCartQuery(cartName, userId) {
   return {
-    name: "check-product-exist-in-cart",
+    name: `check-product-exist-in-cart-${userId}-${cartName}`,
     text: `SELECT id from shop.t_cart WHERE cartName = $1 and foreign_user_id = $2;`,
     values: [cartName, userId],
   };
 }
 function checkUserExistQuery(email) {
   return {
-    name: "check-user-exist",
+    name: `check-user-exist-${email}`,
     text: `SELECT email from shop.t_users WHERE email = $1;`,
     values: [email],
   };
 }
 function getUserCartDataQuery(userId) {
   return {
-    name: "user-cart-data",
+    name: `user-cart-data-${userId}`,
     text: `SELECT 
     title,
     t_cart.id as "cartId",
     t_cart.foreign_product_id as "productId",
     t_productId.myProductId as "longProductId",
     cartname as "cartName",
+    selectedImageUrl as "selectedImageUrl",
     price as "selectedPrice",
     t_cart.quantity as "selectedQuantity",
     t_cart.discount as "selectedDiscount",
     selectedproperties as "selectedProperties",
     shippingdetails as "selectedShippingDetails",
     shippingprice as "selectedShippingPrice",
-    image_link_array as "images",
     minprice as "minPrice",
     maxprice as "maxPrice",
     multiunitname as "multiUnitName",
@@ -125,7 +125,6 @@ function getUserCartDataQuery(userId) {
     FROM shop.t_cart 
     JOIN shop.t_productId ON t_productId.id = t_cart.foreign_product_id
     JOIN shop.t_titles ON t_titles.foreign_id = t_cart.foreign_product_id
-    JOIN shop.t_mainImages ON t_mainImages.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_cart.foreign_product_id
     JOIN shop.t_pricelist ON t_pricelist.foreign_id = t_cart.foreign_product_id
     WHERE foreign_user_id = $1;`,
@@ -134,14 +133,14 @@ function getUserCartDataQuery(userId) {
 }
 function getUserDataQuery(userId) {
   return {
-    name: "check-user-exist",
+    name: `check-user-exist-${userId}`,
     text: `SELECT email from shop.t_users WHERE id = $1;`,
     values: [userId],
   };
 }
 function userLoginQuery(email) {
   return {
-    name: "user-login",
+    name: `user-login-${email}`,
     text: `SELECT id, email, password from shop.t_users WHERE email = $1;`,
     values: [email],
   };

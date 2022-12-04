@@ -10,13 +10,13 @@ async function findOneProduct(productId) {
     // await client.close
   }
 }
-async function add_updateProductToCart(productId, userId, cartName, quantity,price, shippingPrice, discount, selectedProperties, shippingDetails) {
+async function add_updateProductToCart(productId, userId, cartName, quantity,price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
   try {
     let output = await query(queryBuilder.checkProductExistInUserCartQuery(cartName, userId))
     if (output.rows.length > 0) {
-      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
+      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl))
     } else {
-      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails))
+      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl))
       if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
     }
     return output.rows[0];

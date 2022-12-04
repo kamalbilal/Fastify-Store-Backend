@@ -12,10 +12,11 @@ async function addToCart(req, res) {
   const quantity = req.body.quantity
   const selectedProperties = req.body.selectedProperties
   const shippingDetails = req.body.shippingDetails
+  const selectedImageUrl = req.body.selectedImageUrl
   let userId = null;
 
 
-  if (!cookie || !productId || !cartName || isNaN(price) || isNaN(shippingPrice) || isNaN(discount) || !quantity || !selectedProperties || !shippingDetails) {
+  if (!cookie || !productId || !cartName || isNaN(price) || isNaN(shippingPrice) || isNaN(discount) || !quantity || !selectedProperties || !shippingDetails || !selectedImageUrl) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
   try {
@@ -29,7 +30,7 @@ async function addToCart(req, res) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
 
-  const insertOrUpdate = await add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails);
+  const insertOrUpdate = await add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails, selectedImageUrl);
   if (!insertOrUpdate || !insertOrUpdate.hasOwnProperty("id")) {
     return res.status(404).send({ error: true, success: false, reason: "No Modification, something's wrong" });
   }
