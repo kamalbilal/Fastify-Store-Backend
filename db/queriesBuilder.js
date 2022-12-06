@@ -145,6 +145,35 @@ function userLoginQuery(email) {
     values: [email],
   };
 }
+function getUserWishListNamesQuery(userId, limit = 5) {
+  return {
+    name: `user-wishlist-name-${userId}`,
+    text: `SELECT ARRAY_AGG(wishlistname) as "wishListNames", ARRAY_AGG(id) as "wishListIds" from shop.t_wishList WHERE foreign_user_id = $1 GROUP BY foreign_user_id LIMIT $2;`,
+    values: [userId, limit],
+  };
+}
+function getUserWishListDataQuery(wishlist_id, limit = 5) {
+  return {
+    name: `user-wishlist-data-${wishlist_id}`,
+    text: `
+    SELECT     
+    t_titles.title,
+    t_wishlist_products.id as "wishListId",
+    t_wishlist_products.foreign_product_id as "productId",
+    t_productId.myProductId as "longProductId",
+    t_wishlist.wishlistname as "wishListName",
+    minprice as "minPrice",
+    maxprice as "maxPrice"
+    From shop.t_wishlist_products 
+    JOIN shop.t_wishlist ON t_wishlist.id = t_wishlist_products.foreign_wishlist_id
+    JOIN shop.t_productId ON t_productId.id = t_wishlist_products.foreign_product_id
+    JOIN shop.t_titles ON t_titles.foreign_id = t_wishlist_products.foreign_product_id
+    JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_wishlist_products.foreign_product_id
+    where t_wishlist_products.foreign_wishlist_id = $1 LIMIT $2;
+    `,
+    values: [wishlist_id, limit],
+  };
+}
 
 module.exports = {
   getSingleProductQuery,
@@ -157,5 +186,7 @@ module.exports = {
   updateProductToCartQuery,
   incrementCartCountQuery,
   deleteProductToCartQuery,
-  getUserCartDataQuery
+  getUserCartDataQuery,
+  getUserWishListNamesQuery,
+  getUserWishListDataQuery
 };

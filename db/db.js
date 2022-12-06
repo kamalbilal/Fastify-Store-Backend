@@ -36,6 +36,33 @@ async function deleteProductToCart(productId, userId, cartId) {
     return null
   }
 }
+async function getUserWishList(userId) {
+  
+  try {
+    const data = {}
+    output = await query(queryBuilder.getUserWishListNamesQuery(userId))
+
+    data["wishListNames"] = output.rows[0]["wishListNames"]
+    data["wishListIds"] = output.rows[0]["wishListIds"]
+    data["wishListData"] = {}
+
+    const totalIdsLength = output.rows[0]["wishListIds"].length
+
+    if (totalIdsLength > 0) {
+      for (let index = 0; index < totalIdsLength; index++) {
+        const wishListId = data["wishListIds"][index];
+        output = await query(queryBuilder.getUserWishListDataQuery(wishListId))
+        if (output && output["rows"].length > 0) {
+          data["wishListData"][output.rows[0]["wishListName"]] =  output.rows
+        }
+      }
+    }      
+    return data;
+  } catch(e) {
+    console.error(e);
+    return null
+  }
+}
 
 async function findAll(db, collection_name, query, options, getOnly = null, sort) {
   try {
@@ -181,5 +208,5 @@ module.exports = {
   getUserData,
   add_updateProductToCart,
   deleteProductToCart,
-  
+  getUserWishList
 };
