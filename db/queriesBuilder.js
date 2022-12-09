@@ -47,6 +47,20 @@ function signUpUserQuery(email, hasedPassword) {
     values: [email, hasedPassword],
   };
 }
+function createDefaultWishlist(userId) {
+  return {
+    name: `default-wishList-${userId}`,
+    text: `INSERT into shop.t_wishlist(foreign_user_id, wishlistname) Values($1, $2);`,
+    values: [userId, "default"],
+  };
+}
+function addProductToWishlist(userId, productId, wishListNameId) {
+  return {
+    name: `add-product-to-wishList-${userId}`,
+    text: `INSERT into shop.t_wishlist_products(foreign_user_id, foreign_product_id, foreign_wishlist_id) Values($1, $2, $3);`,
+    values: [userId, productId, wishListNameId],
+  };
+}
 function addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
   return {
     name: `addProduct-to-cart-${productId}-${userId}-${cartName}`,
@@ -72,7 +86,7 @@ function updateProductToCartQuery(productId, userId, cartName, quantity, price, 
   return {
     name: `updateProduct-to-cart-${productId}-${userId}-${cartName}`,
     text: `UPDATE shop.t_cart SET quantity = $1, price = $2, shippingPrice = $3, discount = $4, selectedProperties = $5, shippingDetails = $6, selectedImageUrl = $7 WHERE foreign_user_id = $8 and foreign_product_id = $9 and cartName = $10 RETURNING id;`,
-    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl, userId, productId, cartName, selectedImageUrl],
+    values: [quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl, userId, productId, cartName],
   };
 }
 function deleteProductToCartQuery(productId, userId, cartId) {
@@ -178,6 +192,7 @@ function getUserWishListDataQuery(wishlist_id, limit = 5) {
 module.exports = {
   getSingleProductQuery,
   signUpUserQuery,
+  createDefaultWishlist,
   checkUserExistQuery,
   userLoginQuery,
   getUserDataQuery,
@@ -188,5 +203,5 @@ module.exports = {
   deleteProductToCartQuery,
   getUserCartDataQuery,
   getUserWishListNamesQuery,
-  getUserWishListDataQuery
+  getUserWishListDataQuery,
 };

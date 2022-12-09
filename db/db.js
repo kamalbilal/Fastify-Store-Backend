@@ -1,66 +1,66 @@
-
-const {query} = require("./postgress_db");
+const { query } = require("./postgress_db");
 const queryBuilder = require("./queriesBuilder");
 
 async function findOneProduct(productId) {
   try {
-    const output = await query(queryBuilder.getSingleProductQuery(productId))
+    const output = await query(queryBuilder.getSingleProductQuery(productId));
     return output.rows[0];
   } finally {
     // await client.close
   }
 }
-async function add_updateProductToCart(productId, userId, cartName, quantity,price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
+async function add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
   try {
-    let output = await query(queryBuilder.checkProductExistInUserCartQuery(cartName, userId))
+    let output = await query(queryBuilder.checkProductExistInUserCartQuery(cartName, userId));
     if (output.rows.length > 0) {
-      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl))
+      output = await query(queryBuilder.updateProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl));
     } else {
-      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl))
+      output = await query(queryBuilder.addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl));
       if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
     }
     return output.rows[0];
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    return null
+    return null;
   }
 }
 async function deleteProductToCart(productId, userId, cartId) {
   try {
-      output = await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId))
-      // if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
-    
+    output = await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
+    // if (output.rows.length > 0) query(queryBuilder.incrementCartCountQuery(userId));
+
     return output.rows[0];
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    return null
+    return null;
   }
 }
 async function getUserWishList(userId) {
-  
   try {
-    const data = {}
-    output = await query(queryBuilder.getUserWishListNamesQuery(userId))
+    const data = {};
+    output = await query(queryBuilder.getUserWishListNamesQuery(userId));
+    if (output.rows.length > 0) {
+      data["wishListNames"] = output.rows[0]["wishListNames"];
+      data["wishListIds"] = output.rows[0]["wishListIds"];
+      data["wishListData"] = {};
 
-    data["wishListNames"] = output.rows[0]["wishListNames"]
-    data["wishListIds"] = output.rows[0]["wishListIds"]
-    data["wishListData"] = {}
+      const totalIdsLength = output.rows[0]["wishListIds"].length;
 
-    const totalIdsLength = output.rows[0]["wishListIds"].length
-
-    if (totalIdsLength > 0) {
-      for (let index = 0; index < totalIdsLength; index++) {
-        const wishListId = data["wishListIds"][index];
-        output = await query(queryBuilder.getUserWishListDataQuery(wishListId))
-        if (output && output["rows"].length > 0) {
-          data["wishListData"][output.rows[0]["wishListName"]] =  output.rows
+      if (totalIdsLength > 0) {
+        for (let index = 0; index < totalIdsLength; index++) {
+          const wishListId = data["wishListIds"][index];
+          output = await query(queryBuilder.getUserWishListDataQuery(wishListId));
+          if (output && output["rows"].length > 0) {
+            data["wishListData"][output.rows[0]["wishListName"]] = output.rows;
+          }
         }
       }
-    }      
+    }
+
     return data;
-  } catch(e) {
+  } catch (e) {
     console.error(e);
-    return null
+    return null;
   }
 }
 
@@ -103,7 +103,7 @@ async function countAll(db, collection_name, query, options) {
 
 async function aggregate(db, collection_name, query) {
   try {
-    const output = await db.collection(collection_name).aggregate(query, { allowDiskUse: true}).toArray();
+    const output = await db.collection(collection_name).aggregate(query, { allowDiskUse: true }).toArray();
 
     return output;
   } finally {
@@ -115,18 +115,32 @@ async function signUpUser(email, hasedPassword) {
   try {
     // await client.connect();
     const output = await query(queryBuilder.signUpUserQuery(email, hasedPassword));
+    
+    // when a new user sign up do these default things
+    if (output.rows.length > 0 && output.rows[0].hasOwnProperty("id")) {
+      const userId = output.rows[0]["id"]
+      await query(queryBuilder.createDefaultWishlist(userId));
+    }
+    // when a new user sign up do these default things end
+
     return output;
   } finally {
     // await client.close();
   }
 }
 async function getUserData(id) {
-  const output = {}
+  const data = {};
   try {
     // await client.connect();
-    output["userData"] = await (await query(queryBuilder.getUserDataQuery(id))).rows[0] || null;
-    output["userCart"] = await (await query(queryBuilder.getUserCartDataQuery(id))).rows;
-    return output;
+    data["userData"] = (await (await query(queryBuilder.getUserDataQuery(id))).rows[0]) || null;
+    data["userCart"] = await (await query(queryBuilder.getUserCartDataQuery(id))).rows;
+    data["userWishList"] = {wishListNames: [], wishListIds: []}
+    output = await query(queryBuilder.getUserWishListNamesQuery(id));
+    if (output.rows.length > 0) {
+      data["userWishList"]["wishListNames"] = output.rows[0]["wishListNames"];
+      data["userWishList"]["wishListIds"] = output.rows[0]["wishListIds"];
+    }
+    return data;
   } finally {
     // await client.close();
   }
@@ -208,5 +222,5 @@ module.exports = {
   getUserData,
   add_updateProductToCart,
   deleteProductToCart,
-  getUserWishList
+  getUserWishList,
 };
