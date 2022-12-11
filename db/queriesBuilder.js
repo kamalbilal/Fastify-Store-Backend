@@ -54,11 +54,11 @@ function createDefaultWishlist(userId) {
     values: [userId, "default"],
   };
 }
-function addProductToWishlist(userId, productId, wishListNameId) {
+function addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl) {
   return {
-    name: `add-product-to-wishList-${userId}`,
-    text: `INSERT into shop.t_wishlist_products(foreign_user_id, foreign_product_id, foreign_wishlist_id) Values($1, $2, $3);`,
-    values: [userId, productId, wishListNameId],
+    name: `add-data-to-wishList-${userId}`,
+    text: `INSERT into shop.t_wishlist_products(foreign_user_id, foreign_product_id, foreign_wishlist_id, selectedImageUrl) Values($1, $2, $3, $4) ON CONFLICT (foreign_user_id, foreign_product_id) DO UPDATE SET foreign_wishlist_id = $5 RETURNING id;`,
+    values: [userId, productId, wishListNameId, selectedImageUrl, wishListNameId],
   };
 }
 function addProductToCartQuery(productId, userId, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl) {
@@ -204,4 +204,5 @@ module.exports = {
   getUserCartDataQuery,
   getUserWishListNamesQuery,
   getUserWishListDataQuery,
+  addProductToWishlistQuery
 };

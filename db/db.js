@@ -35,6 +35,18 @@ async function deleteProductToCart(productId, userId, cartId) {
     return null;
   }
 }
+
+async function addProductToWishlist(userId, productId, wishListNameId, selectedImageUrl, cartId) {
+  try {
+    output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl));
+    await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
+
+    return output.rows[0];
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
 async function getUserWishList(userId) {
   try {
     const data = {};
@@ -224,4 +236,5 @@ module.exports = {
   add_updateProductToCart,
   deleteProductToCart,
   getUserWishList,
+  addProductToWishlist
 };

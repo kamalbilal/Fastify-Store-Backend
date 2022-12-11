@@ -3,6 +3,7 @@ const getWishList = require("./Routes_Functions/getWishList");
 const signUp = require("./Routes_Functions/signUp");
 const login = require("./Routes_Functions/login");
 const addToCart = require("./Routes_Functions/addToCart");
+const addToWishList = require("./Routes_Functions/addToWishList");
 const removeFromCart = require("./Routes_Functions/removeFromCart");
 const getUserData = require("./Routes_Functions/getUserData");
 const logout = require("./Routes_Functions/logout");
@@ -31,6 +32,7 @@ module.exports = function (fastify, opts, done) {
   fastify.post("/getUserData", getUserData);
   fastify.post("/logout", logout);
   fastify.post("/addtocart", addToCart);
+  fastify.post("/addtowishlist", addToWishList);
   fastify.post("/removefromcart", removeFromCart);
   // fastify.post("/getusercart", getUserCart);
   // fastify.post("/getsearchedproducts", getSearchedProducts);
