@@ -118,6 +118,7 @@ async function signUpUser(email, hasedPassword) {
     
     // when a new user sign up do these default things
     if (output.rows.length > 0 && output.rows[0].hasOwnProperty("id")) {
+      console.log(output.rows[0]);
       const userId = output.rows[0]["id"]
       await query(queryBuilder.createDefaultWishlist(userId));
     }
