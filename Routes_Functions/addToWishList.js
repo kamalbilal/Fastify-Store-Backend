@@ -25,8 +25,8 @@ async function addToWishList(req, res) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
 
-  // const addProductToWishlistOutput = await addProductToWishlist(userId, productId, wishListNameId, selectedImageUrl, cartId);
-  const addProductToWishlistOutput = false;
+  const addProductToWishlistOutput = await addProductToWishlist(userId, productId, wishListNameId, selectedImageUrl, cartId);
+  // const addProductToWishlistOutput = false;
   if (!addProductToWishlistOutput || !addProductToWishlistOutput.hasOwnProperty("id")) {
     return res.status(404).send({ error: true, success: false, reason: "No Modification, something's wrong" });
   }
