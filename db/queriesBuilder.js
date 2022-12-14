@@ -51,7 +51,7 @@ function createDefaultWishlist(userId) {
   return {
     name: `default-wishList-${userId}`,
     text: `INSERT into shop.t_wishlist(foreign_user_id, wishlistname) Values($1, $2);`,
-    values: [userId, "default"],
+    values: [userId, "Default"],
   };
 }
 function addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl) {
@@ -159,11 +159,12 @@ function userLoginQuery(email) {
     values: [email],
   };
 }
-function getUserWishListNamesQuery(userId, limit = 5) {
+function getUserWishListNamesQuery(userId, limit = 5) { 
+  // set limit = 0 if you don't want to use any limit
   return {
-    name: `user-wishlist-name-${userId}`,
-    text: `SELECT ARRAY_AGG(wishlistname) as "wishListNames", ARRAY_AGG(id) as "wishListIds" from shop.t_wishList WHERE foreign_user_id = $1 GROUP BY foreign_user_id LIMIT $2;`,
-    values: [userId, limit],
+    // name: `user-wishlist-name-${userId}`,
+    text: `SELECT ARRAY_AGG(wishlistname) as "wishListNames", ARRAY_AGG(id) as "wishListIds" from shop.t_wishList WHERE foreign_user_id = $1 GROUP BY foreign_user_id ${limit !== 0 ? "LIMIT $2" : "" };`,
+    values: limit !== 0 ? [userId, limit] : [userId],
   };
 }
 function getUserWishListDataQuery(wishlist_id, limit = 5) {
@@ -173,6 +174,7 @@ function getUserWishListDataQuery(wishlist_id, limit = 5) {
     SELECT     
     t_titles.title,
     t_wishlist_products.id as "wishListId",
+    t_wishlist_products.selectedImageUrl as "selectedImageUrl",
     t_wishlist_products.foreign_product_id as "productId",
     t_productId.myProductId as "longProductId",
     t_wishlist.wishlistname as "wishListName",

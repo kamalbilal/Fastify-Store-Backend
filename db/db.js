@@ -148,7 +148,7 @@ async function getUserData(id) {
     data["userData"] = (await (await query(queryBuilder.getUserDataQuery(id))).rows[0]) || null;
     data["userCart"] = await (await query(queryBuilder.getUserCartDataQuery(id))).rows;
     data["userWishList"] = {wishListNames: [], wishListIds: []}
-    output = await query(queryBuilder.getUserWishListNamesQuery(id));
+    output = await query(queryBuilder.getUserWishListNamesQuery(id, 0));
     if (output.rows.length > 0) {
       data["userWishList"]["wishListNames"] = output.rows[0]["wishListNames"];
       data["userWishList"]["wishListIds"] = output.rows[0]["wishListIds"];
