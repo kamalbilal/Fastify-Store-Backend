@@ -54,6 +54,7 @@ function createDefaultWishlist(userId) {
     values: [userId, "Default"],
   };
 }
+
 function addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl) {
   return {
     name: `add-data-to-wishList-${userId}`,

@@ -38,8 +38,9 @@ async function deleteProductToCart(productId, userId, cartId) {
 
 async function addProductToWishlist(userId, productId, wishListNameId, selectedImageUrl, cartId) {
   try {
-    output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl));
-    await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
+    // output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl));
+    output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl, cartId));
+    // await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
 
     return output.rows[0];
   } catch (e) {

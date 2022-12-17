@@ -5,11 +5,11 @@ types.setTypeParser(types.builtins.INT8, (value) => {
 });
 
 types.setTypeParser(types.builtins.FLOAT8, (value) => {
-   return parseFloat(value);
+  return parseFloat(value);
 });
 
 types.setTypeParser(types.builtins.NUMERIC, (value) => {
-   return parseFloat(value);
+  return parseFloat(value);
 });
 
 const pool = new Pool({
@@ -18,28 +18,18 @@ const pool = new Pool({
   host: "localhost",
   port: 5432,
   database: "shop",
-  max: 50,
+  max: 5,
 });
 
-async function getConnection() {
-  const connection = await pool.connect();
-  return connection
-} 
-
-async function query(qry, connection = null) {
-  let output = null;
+async function query(preparedStatement, values) {
+  let res;
   try {
-    if (connection !== null) {
-      // const connection = await pool.connect();
-      output = await connection.query(qry);
-    } else {
-      output = await pool.query(qry);
-    }
+    res = await preparedStatement.execute(values);
   } catch (e) {
-    console.log(qry);
     console.log(e);
+    res = {rows: null, fields: null}
   }
-  return { rows: output.rows, fields: output.fields };
+  return { rows: res.rows, fields: res.fields };
 }
 
 pool.on("error", (err, client) => {
@@ -49,5 +39,4 @@ pool.on("disconnect", (err, client) => {
   console.log("...Db Disconnected...");
 });
 
-
-module.exports = {query, getConnection};
+module.exports = { query, pool };

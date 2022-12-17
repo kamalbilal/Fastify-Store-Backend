@@ -8,7 +8,6 @@ const removeFromCart = require("./Routes_Functions/removeFromCart");
 const getUserData = require("./Routes_Functions/getUserData");
 const logout = require("./Routes_Functions/logout");
 // const getSearchedProducts = require("./Routes_Functions/getSearchedProducts");
-const getSearchedProducts = require("./Routes_Functions/customQuery");
 
 // admin start
 const admin = require("./Routes_Functions/admin/admin");
