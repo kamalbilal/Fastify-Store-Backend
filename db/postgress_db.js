@@ -21,15 +21,25 @@ const pool = new Pool({
   max: 5,
 });
 
-async function query(preparedStatement, values) {
-  let res;
+async function getConnection() {
+  const connection = await pool.connect();
+  return connection
+} 
+
+async function query(qry, connection = null) {
+  let output = null;
   try {
-    res = await preparedStatement.execute(values);
+    if (connection !== null) {
+      // const connection = await pool.connect();
+      output = await connection.query(qry);
+    } else {
+      output = await pool.query(qry);
+    }
   } catch (e) {
+    console.log(qry);
     console.log(e);
-    res = {rows: null, fields: null}
   }
-  return { rows: res.rows, fields: res.fields };
+  return { rows: output.rows, fields: output.fields };
 }
 
 pool.on("error", (err, client) => {

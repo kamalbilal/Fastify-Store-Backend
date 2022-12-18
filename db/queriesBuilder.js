@@ -104,6 +104,7 @@ function checkProductExistInUserCartQuery(cartName, userId) {
     values: [cartName, userId],
   };
 }
+
 function checkUserExistQuery(email) {
   return {
     name: `check-user-exist-${email}`,

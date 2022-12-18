@@ -118,12 +118,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-13T06:49:56.017Z",
-    "modified": "2022-11-30T23:29:55.463Z",
+    "modified": "2022-12-18T03:09:15.001Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 7293620822086523,\n  \"product_name\": \"product_name\"\n}",
+      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 4232431641086523,\n  \"product_name\": \"product_name\"\n}",
       "form": []
     },
     "tests": []

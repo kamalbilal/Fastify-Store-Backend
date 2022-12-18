@@ -113,24 +113,6 @@ JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_wishlist_products.foreign_pr
 where t_wishlist_products.foreign_wishlist_id = $1 LIMIT $2;
 `;
 
-const getSingleProductQueryPreparedStatement = pool.prepare(getSingleProductQuery);
-const signUpUserQueryPreparedStatement = pool.prepare(signUpUserQuery);
-const createDefaultWishlistPreparedStatement = pool.prepare(createDefaultWishlist);
-const addProductToWishlistQueryPreparedStatement = pool.prepare(addProductToWishlistQuery);
-const addProductToCartQueryPreparedStatement = pool.prepare(addProductToCartQuery);
-const incrementCartCountQueryPreparedStatement = pool.prepare(incrementCartCountQuery);
-const decrementCartCountQueryPreparedStatement = pool.prepare(decrementCartCountQuery);
-const updateProductToCartQueryPreparedStatement = pool.prepare(updateProductToCartQuery);
-const deleteProductToCartQueryPreparedStatement = pool.prepare(deleteProductToCartQuery);
-const checkProductExistInUserCartQueryPreparedStatement = pool.prepare(checkProductExistInUserCartQuery);
-const checkUserExistQueryPreparedStatement = pool.prepare(checkUserExistQuery);
-const getUserCartDataQueryPreparedStatement = pool.prepare(getUserCartDataQuery);
-const getUserDataQueryPreparedStatement = pool.prepare(getUserDataQuery);
-const userLoginQueryPreparedStatement = pool.prepare(userLoginQuery);
-const getUserWishListNamesQueryPreparedStatement = pool.prepare(getUserWishListNamesQuery);
-const getUserWishListNamesQueryWithLimitPreparedStatement = pool.prepare(getUserWishListNamesQueryWithLimit);
-const getUserWishListDataQueryPreparedStatement = pool.prepare(getUserWishListDataQuery);
-
 /**
  * This function wants shop.t_wishlist_products.foreign_wishlist_id = $1 LIMIT $2;
  * @param {number} foreign_wishlist_id
@@ -141,7 +123,7 @@ function getUserWishListDataQueryFunc(foreign_wishlist_id, limit) {
     console.log({ foreign_wishlist_id, limit });
     throw new Error("foreign_wishlist_id, limit are required, Watch console log for more...");
   }
-  return getUserWishListDataQueryPreparedStatement;
+  return getUserWishListDataQuery;
 }
 
 /**
@@ -154,7 +136,7 @@ function getUserWishListNamesQueryWithLimitFunc(foreign_user_id, limit) {
     console.log(foreign_user_id, limit);
     throw new Error("foreign_user_id, limit are required, Watch console log for more...");
   }
-  return getUserWishListNamesQueryWithLimitPreparedStatement;
+  return getUserWishListNamesQueryWithLimit;
 }
 
 /**
@@ -166,7 +148,7 @@ function getUserWishListNamesQueryFunc(foreign_user_id) {
     console.log({ foreign_user_id });
     throw new Error("foreign_user_id are required, Watch console log for more...");
   }
-  return getUserWishListNamesQueryPreparedStatement;
+  return getUserWishListNamesQuery;
 }
 
 /**
@@ -179,7 +161,7 @@ function userLoginQueryFunc(email) {
 
     throw new Error("email are required, Watch console log for more...");
   }
-  return userLoginQueryPreparedStatement;
+  return userLoginQuery;
 }
 
 /**
@@ -192,7 +174,7 @@ function getUserDataQueryFunc(id) {
 
     throw new Error("id are required, Watch console log for more...");
   }
-  return getUserDataQueryPreparedStatement;
+  return getUserDataQuery;
 }
 
 /**
@@ -204,7 +186,7 @@ function getUserCartDataQueryFunc(foreign_user_id) {
     console.log({ foreign_user_id });
     throw new Error("foreign_user_id are required, Watch console log for more...");
   }
-  return getUserCartDataQueryPreparedStatement;
+  return getUserCartDataQuery;
 }
 
 /**
@@ -216,7 +198,7 @@ function checkUserExistQueryFunc(email) {
     console.log({ email });
     throw new Error("email are required, Watch console log for more...");
   }
-  return checkUserExistQueryPreparedStatement;
+  return checkUserExistQuery;
 }
 
 /**
@@ -229,7 +211,7 @@ function checkProductExistInUserCartQueryFunc(cartName, foreign_user_id) {
     console.log({ cartName, foreign_user_id });
     throw new Error("cartName, foreign_user_id are required, Watch console log for more...");
   }
-  return checkProductExistInUserCartQueryPreparedStatement;
+  return checkProductExistInUserCartQuery;
 }
 
 /**
@@ -244,7 +226,7 @@ function deleteProductToCartQueryFunc(foreign_product_id, foreign_user_id, id) {
 
     throw new Error("foreign_product_id, foreign_user_id, id are required, Watch console log for more...");
   }
-  return deleteProductToCartQueryPreparedStatement;
+  return deleteProductToCartQuery;
 }
 
 /**
@@ -265,7 +247,7 @@ function updateProductToCartQueryFunc(quantity, price, shippingPrice, discount, 
     console.log({ quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl, foreign_user_id, foreign_product_id, cartName });
     throw new Error("quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl, foreign_user_id, foreign_product_id, cartName are required, Watch console log for more...");
   }
-  return updateProductToCartQueryPreparedStatement;
+  return updateProductToCartQuery;
 }
 
 /**
@@ -277,7 +259,7 @@ function decrementCartCountQueryFunc(id) {
     console.log({ id });
     throw new Error("id are required, Watch console log for more...");
   }
-  return decrementCartCountQueryPreparedStatement;
+  return decrementCartCountQuery;
 }
 
 /**
@@ -289,7 +271,7 @@ function incrementCartCountQueryFunc(id) {
     console.log({ id });
     throw new Error("id are required, Watch console log for more...");
   }
-  return incrementCartCountQueryPreparedStatement;
+  return incrementCartCountQuery;
 }
 
 /**
@@ -310,7 +292,7 @@ function addProductToCartQueryFunc(foreign_product_id, foreign_user_id, cartName
     console.log({ foreign_product_id, foreign_user_id, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl });
     throw new Error("foreign_product_id, foreign_user_id, cartName, quantity, price, shippingPrice, discount, selectedProperties, shippingDetails, selectedImageUrl are required, Watch console log for more...");
   }
-  return addProductToCartQueryPreparedStatement;
+  return addProductToCartQuery;
 }
 
 /**
@@ -325,7 +307,7 @@ function addProductToWishlistQueryFunc(foreign_user_id, foreign_product_id, fore
     console.log({ foreign_user_id, foreign_product_id, foreign_wishlist_id, selectedImageUrl });
     throw new Error("foreign_user_id, foreign_product_id, foreign_wishlist_id, selectedImageUrl are required, Watch console log for more...");
   }
-  return addProductToWishlistQueryPreparedStatement;
+  return addProductToWishlistQuery;
 }
 
 /**
@@ -338,7 +320,7 @@ function createDefaultWishlistFunc(foreign_user_id, wishlistname) {
     console.log({ foreign_user_id, wishlistname });
     throw new Error("foreign_user_id, wishlistname are required, Watch console log for more...");
   }
-  return createDefaultWishlistPreparedStatement;
+  return createDefaultWishlist;
 }
 
 /**
@@ -351,7 +333,7 @@ function signUpUserQueryFunc(email, password) {
     console.log({ email, password });
     throw new Error("email, password are required, Watch console log for more...");
   }
-  return signUpUserQueryPreparedStatement;
+  return signUpUserQuery;
 }
 
 /**
@@ -363,7 +345,7 @@ function getSingleProductQueryFunc(productId) {
     console.log({ productId });
     throw new Error("productId are required, Watch console log for more...");
   }
-  return getSingleProductQueryPreparedStatement;
+  return getSingleProductQuery;
 }
 
 module.exports = {

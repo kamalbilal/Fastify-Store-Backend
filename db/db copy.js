@@ -1,6 +1,5 @@
 const { query } = require("./postgress_db");
 const queryBuilder = require("./queriesBuilder");
-// const PS = require("./preparedStatements");
 
 async function findOneProduct(productId) {
   try {
