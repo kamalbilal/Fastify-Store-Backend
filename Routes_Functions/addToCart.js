@@ -1,4 +1,5 @@
 const { add_updateProductToCart } = require("../db/db");
+const { add_updateProductToCart_transaction } = require("../db/db_transaction");
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../passwords");
 
@@ -30,7 +31,10 @@ async function addToCart(req, res) {
     return res.status(404).send({ error: true, code: "Error Code 6" });
   }
 
-  const insertOrUpdate = await add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails, selectedImageUrl);
+  console.time("InsertOrUpdate")
+  const insertOrUpdate = await add_updateProductToCart_transaction(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails, selectedImageUrl);
+  console.timeEnd("InsertOrUpdate")
+  // const insertOrUpdate = await add_updateProductToCart(productId, userId, cartName, quantity, price, shippingPrice,discount, selectedProperties, shippingDetails, selectedImageUrl);
   if (!insertOrUpdate || !insertOrUpdate.hasOwnProperty("id")) {
     return res.status(404).send({ error: true, success: false, reason: "No Modification, something's wrong" });
   }

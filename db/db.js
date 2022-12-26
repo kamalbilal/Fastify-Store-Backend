@@ -41,7 +41,7 @@ async function addProductToWishlist(userId, productId, wishListNameId, selectedI
   try {
     // output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl));
     output = await query(queryBuilder.addProductToWishlistQuery(userId, productId, wishListNameId, selectedImageUrl, cartId));
-    // await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
+    await query(queryBuilder.deleteProductToCartQuery(productId, userId, cartId));
 
     return output.rows[0];
   } catch (e) {
