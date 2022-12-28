@@ -187,9 +187,32 @@ function getUserWishListDataQuery(wishlist_id, limit = 5) {
     JOIN shop.t_productId ON t_productId.id = t_wishlist_products.foreign_product_id
     JOIN shop.t_titles ON t_titles.foreign_id = t_wishlist_products.foreign_product_id
     JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_wishlist_products.foreign_product_id
-    where t_wishlist_products.foreign_wishlist_id = $1 LIMIT $2;
+    where t_wishlist_products.foreign_wishlist_id = $1 ORDER BY t_wishlist_products.created_at DESC LIMIT $2;
     `,
     values: [wishlist_id, limit],
+  };
+}
+function getCertainWishListDataQuery(wishlist_id, limit = 5, pageNumber) {
+  return {
+    name: `user-wishlist-data-${wishlist_id}`,
+    text: `
+    SELECT     
+    t_titles.title,
+    t_wishlist_products.id as "wishListId",
+    t_wishlist_products.selectedImageUrl as "selectedImageUrl",
+    t_wishlist_products.foreign_product_id as "productId",
+    t_productId.myProductId as "longProductId",
+    t_wishlist.wishlistname as "wishListName",
+    minprice as "minPrice",
+    maxprice as "maxPrice"
+    From shop.t_wishlist_products 
+    JOIN shop.t_wishlist ON t_wishlist.id = t_wishlist_products.foreign_wishlist_id
+    JOIN shop.t_productId ON t_productId.id = t_wishlist_products.foreign_product_id
+    JOIN shop.t_titles ON t_titles.foreign_id = t_wishlist_products.foreign_product_id
+    JOIN shop.t_basicinfo ON t_basicinfo.foreign_id = t_wishlist_products.foreign_product_id
+    where t_wishlist_products.foreign_wishlist_id = $1 ORDER BY t_wishlist_products.created_at DESC LIMIT $2 OFFSET $3;
+    `,
+    values: [wishlist_id, limit, limit * (pageNumber - 1)],
   };
 }
 
@@ -208,5 +231,6 @@ module.exports = {
   getUserCartDataQuery,
   getUserWishListNamesQuery,
   getUserWishListDataQuery,
-  addProductToWishlistQuery
+  addProductToWishlistQuery,
+  getCertainWishListDataQuery
 };

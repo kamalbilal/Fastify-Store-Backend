@@ -49,6 +49,7 @@ async function addProductToWishlist(userId, productId, wishListNameId, selectedI
     return null;
   }
 }
+
 async function getUserWishList(userId) {
   try {
     const data = {};
@@ -63,13 +64,24 @@ async function getUserWishList(userId) {
       if (totalIdsLength > 0) {
         for (let index = 0; index < totalIdsLength; index++) {
           const wishListId = data["wishListIds"][index];
-          output = await query(queryBuilder.getUserWishListDataQuery(wishListId));
+          output = await query(queryBuilder.getUserWishListDataQuery(wishListId, 5));
           if (output && output["rows"].length > 0) {
             data["wishListData"][output.rows[0]["wishListName"]] = output.rows;
           }
         }
       }
     }
+
+    return data;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+async function getCertainWishList(wishListId, pageNumber = 1) {
+  try {
+    const output = await query(queryBuilder.getCertainWishListDataQuery(wishListId, 5, pageNumber));
 
     return data;
   } catch (e) {
@@ -238,5 +250,6 @@ module.exports = {
   add_updateProductToCart,
   deleteProductToCart,
   getUserWishList,
-  addProductToWishlist
+  addProductToWishlist,
+  getCertainWishList
 };

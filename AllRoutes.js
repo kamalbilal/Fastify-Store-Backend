@@ -1,5 +1,6 @@
 const getProductData = require("./Routes_Functions/getProductData");
 const getWishList = require("./Routes_Functions/getWishList");
+const getCertainWishListData = require("./Routes_Functions/getCertainWishListData");
 const signUp = require("./Routes_Functions/signUp");
 const login = require("./Routes_Functions/login");
 const addToCart = require("./Routes_Functions/addToCart");
@@ -26,6 +27,7 @@ const renameOffer = require("./Routes_Functions/admin/renameOffer");
 module.exports = function (fastify, opts, done) {
   fastify.post("/getProductData", getProductData); // done
   fastify.post("/getwishlist", getWishList); // done
+  fastify.post("/getMoreWishlist", getCertainWishListData); // done
   fastify.post("/signup", signUp);
   fastify.post("/login", login);
   fastify.post("/getUserData", getUserData);
