@@ -4,9 +4,12 @@ const { jwtSecret } = require("../passwords");
 
 async function getCertainWishListData(req, res) {
   const pageNumber = req.body.pageNumber;
+  const wishlistId = req.body.wishlistId;
+  const wishlistName = req.body.wishlistName;
+  const cookie = req.unsignCookie(req.cookies["token"]).value;
   let userId = null;
-
-  if (!cookie) return res.status(404).send({ error: true, code: "Error Code 3" });
+  console.log(cookie);
+  if (!cookie || !wishlistId || !wishlistName) return res.status(404).send({ error: true, code: "Error Code 3" });
 
   try {
     userId = jwt.verify(cookie, jwtSecret);
@@ -20,11 +23,11 @@ async function getCertainWishListData(req, res) {
   }
 
   console.time("Get WishList Data page number");
-  let output = await getCertainWishList(userId, pageNumber);
+  let output = await getCertainWishList(userId, wishlistId, pageNumber);
   console.timeEnd("Get WishList Data page number");
   if (!output) return res.status(404).send({ error: true, code: "Error Code 5" });
   // if (output && output["title"] === product_name) {
-  return res.status(200).send(output);
+  return res.status(200).send({data:output, wishlistId: wishlistId, wishlistName, pageNumber: pageNumber});
   // } else {
   // return res.status(404).send({ error: true, code: "Error Code 5" });
   // }

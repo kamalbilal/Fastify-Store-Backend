@@ -127,5 +127,24 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "454a19e2-bbfd-4c87-b36e-f8a3069603f3",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/getProductData Copy",
+    "url": "http://localhost:8000/getProductData",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2022-12-18T03:09:15.001Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 4232431641086523,\n  \"product_name\": \"product_name\"\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

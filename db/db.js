@@ -79,11 +79,11 @@ async function getUserWishList(userId) {
   }
 }
 
-async function getCertainWishList(wishListId, pageNumber = 1) {
+async function getCertainWishList(userId, wishListId, pageNumber = 1) {
   try {
-    const output = await query(queryBuilder.getCertainWishListDataQuery(wishListId, 5, pageNumber));
+    const output = await query(queryBuilder.getCertainWishListDataQuery(userId, wishListId, 5, pageNumber));
 
-    return data;
+    return output.rows;
   } catch (e) {
     console.error(e);
     return null;
