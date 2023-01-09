@@ -37,6 +37,7 @@ fastify.register(require("@fastify/cookie"), {
   secret: cookieSignedSecret, // for cookies signature
   parseOptions: {}, // options for parsing cookies
 });
+
 fastify.register(require("./AllRoutes"), {
   prefix: "/",
 });
