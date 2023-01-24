@@ -8,8 +8,13 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-13T06:49:56.017Z",
-    "modified": "2022-12-12T16:07:15.182Z",
-    "headers": [],
+    "modified": "2023-01-14T02:28:16.617Z",
+    "headers": [
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzQ1MjUzNjUsImlkIjo1fQ.4xVyYbXs4h1Yi7SK-RTX4Ibeof32OWgarniSSOM-vik"
+      }
+    ],
     "params": [],
     "body": {
       "type": "json",
@@ -27,11 +32,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-13T06:49:56.017Z",
-    "modified": "2022-11-24T13:28:20.508Z",
+    "modified": "2023-01-17T03:08:57.364Z",
     "headers": [
       {
         "name": "Cookie",
-        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY5Mjk2NDc4LCJleHAiOjE2NzAxNjA0Nzh9.N6R5L9U2Rf7mht3DNgfSbUgocSimPXMRW9A5V32bC9E"
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY5Mjk2NDc4LCJleHAiOjE2NzAxNjA0Nzh9.N6R5L9U2Rf7mht3DNgfSbUgocSimPXMRW9A5V32bC9E",
+        "isDisabled": true
       }
     ],
     "params": [],
@@ -113,17 +119,17 @@
     "_id": "555bf961-0601-4ea1-974e-a0f0dc4a131a",
     "colId": "history",
     "containerId": "",
-    "name": "http://localhost:8000/getProductData",
-    "url": "http://localhost:8000/getProductData",
+    "name": "http://localhost:8000/getMoreWishlist",
+    "url": "http://localhost:8000/getMoreWishlist",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-13T06:49:56.017Z",
-    "modified": "2023-01-07T22:54:31.455Z",
+    "modified": "2023-01-16T19:17:52.057Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 1657785073086523,\n  \"product_name\": \"product_name\"\n}",
+      "raw": "{\n  \"pageNumber\" : 1\n}",
       "form": []
     },
     "tests": []
@@ -143,6 +149,45 @@
     "body": {
       "type": "json",
       "raw": "{\n  \"pwd\": \"Kamal\",\n  \"id\": 4232431641086523,\n  \"product_name\": \"product_name\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "7b32fb27-8e10-4467-bcc0-6e847aa5405b",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8000/removefromcart",
+    "url": "http://localhost:8000/getUserData",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-13T06:49:56.017Z",
+    "modified": "2023-01-17T03:08:57.364Z",
+    "headers": [
+      {
+        "name": "Cookie",
+        "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY5Mjk2NDc4LCJleHAiOjE2NzAxNjA0Nzh9.N6R5L9U2Rf7mht3DNgfSbUgocSimPXMRW9A5V32bC9E",
+        "isDisabled": true
+      }
+    ],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "95f1a23c-690d-4b96-949e-194ddd4a08ca",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:8080/login",
+    "url": "http://localhost:8000/login",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-01-14T02:29:01.826Z",
+    "modified": "2023-01-17T03:07:27.121Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\" : \"kamalbilal55@gmail.com\",\n  \"password\": \"Kamal\"\n}",
       "form": []
     },
     "tests": []

@@ -26,15 +26,15 @@ const renameOffer = require("./Routes_Functions/admin/renameOffer");
 
 module.exports = function (fastify, opts, done) {
   fastify.post("/getProductData", getProductData); // done
-  fastify.post("/getwishlist", getWishList);
-  fastify.post("/getMoreWishlist", getCertainWishListData);
-  fastify.post("/signup", signUp);
-  fastify.post("/login", login);
-  fastify.post("/getUserData", getUserData);
-  fastify.post("/logout", logout);
+  fastify.post("/getwishlist", getWishList); // done
+  fastify.post("/getMoreWishlist", getCertainWishListData); // done
+  fastify.post("/signup", signUp); // done
+  fastify.post("/login", login); // done
+  fastify.post("/getUserData", getUserData); //done
+  fastify.post("/logout", logout); // done
   fastify.post("/addtocart", addToCart);
-  fastify.post("/addtowishlist", addToWishList);
-  fastify.post("/removefromcart", removeFromCart);
+  fastify.post("/addtowishlist", addToWishList); //done
+  fastify.post("/removefromcart", removeFromCart); //done
   // fastify.post("/getusercart", getUserCart);
   // fastify.post("/getsearchedproducts", getSearchedProducts);
 
